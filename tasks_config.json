@@ -1,0 +1,217 @@
+{
+    "Model Information": {
+        "fields": [
+            {
+                "col_name": "Model",
+                "metric": "metric",
+                "displayed_by_default": true,
+                "never_hidden": true
+            },
+            {
+                "col_name": "T",
+                "metric": "metric"
+            },
+            {
+                "col_name": "Average ⬆️",
+                "metric": "metric"
+            },
+            {
+                "col_name": "T",
+                "metric": "metric"
+            }
+        ]
+    },
+    "Textual Analysis (TA)": {
+      "fields": [
+        {
+          "col_name": "FPB",
+          "metric": "F1"
+        },
+        {
+          "col_name": "FiQA-SA",
+          "metric": "F1"
+        },
+        {
+          "col_name": "TSA",
+          "metric": "RMSE"
+        },
+        {
+          "col_name": "Headlines",
+          "metric": "AvgF1"
+        },
+        {
+          "col_name": "FOMC",
+          "metric": "F1"
+        },
+        {
+          "col_name": "FinArg-ACC",
+          "metric": "MicroF1"
+        },
+        {
+          "col_name": "FinArg-ARC",
+          "metric": "MicroF1"
+        },
+        {
+          "col_name": "MultiFin",
+          "metric": "MicroF1"
+        },
+        {
+          "col_name": "MA",
+          "metric": "MicroF1"
+        },
+        {
+          "col_name": "MLESG",
+          "metric": "MicroF1"
+        }
+      ]
+    },
+    "Information Extraction (IE)": {
+      "fields": [
+        {
+          "col_name": "NER",
+          "metric": "EntityF1"
+        },
+        {
+          "col_name": "FINER-ORD",
+          "metric": "EntityF1"
+        },
+        {
+          "col_name": "FinRED",
+          "metric": "F1"
+        },
+        {
+          "col_name": "SC",
+          "metric": "F1"
+        },
+        {
+          "col_name": "CD",
+          "metric": "F1"
+        },
+        {
+          "col_name": "FNXL",
+          "metric": "EntityF1"
+        },
+        {
+          "col_name": "FSRL",
+          "metric": "EntityF1"
+        }
+      ]
+    },
+    "Question Answering (QA)": {
+      "fields": [
+        {
+          "col_name": "FinQA",
+          "metric": "EmAcc"
+        },
+        {
+          "col_name": "TATQA",
+          "metric": "EmAcc"
+        },
+        {
+          "col_name": "ConvFinQA",
+          "metric": "EmAcc"
+        }
+      ]
+    },
+    "Text Generation (TG)": {
+      "fields": [
+        {
+          "col_name": "EDTSUM",
+          "metric": "Rouge-1"
+        },
+        {
+          "col_name": "ECTSUM",
+          "metric": "Rouge-1"
+        }
+      ]
+    },
+    "Forecasting (FO)": {
+      "fields": [
+        {
+          "col_name": "BigData22",
+          "metric": "Acc"
+        },
+        {
+          "col_name": "ACL18",
+          "metric": "Acc"
+        },
+        {
+          "col_name": "CIKM18",
+          "metric": "Acc"
+        }
+      ]
+    },
+    "Risk Management (RM)": {
+      "fields": [
+        {
+          "col_name": "German",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "Australian",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "LendingClub",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "ccf",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "ccfraud",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "polish",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "taiwan",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "portoseguro",
+          "metric": "MCC"
+        },
+        {
+          "col_name": "travelinsurance",
+          "metric": "MCC"
+        }
+      ]
+    },
+    "Spanish": {
+      "fields": [
+        {
+          "col_name": "MultiFin-ES",
+          "metric": "F1"
+        },
+        {
+          "col_name": "EFP",
+          "metric": "F1"
+        },
+        {
+          "col_name": "EFPA",
+          "metric": "F1"
+        },
+        {
+          "col_name": "FinanceES",
+          "metric": "F1"
+        },
+        {
+          "col_name": "TSA-Spanish",
+          "metric": "F1"
+        }
+      ]
+    },
+    "Decision-Making (DM)": {
+      "fields": [
+        {
+          "col_name": "FinTrade",
+          "metric": "SR"
+        }
+      ]
+    }
+  }
+  
