@@ -15,6 +15,7 @@ import {
   getTooltipStyle,
   TABLE_TOOLTIPS,
 } from "../constants/tooltips";
+import { getModelOpenness } from "../constants/modelOpenness";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { alpha } from "@mui/material/styles";
 import InfoIconWithTooltip from "../../../../../components/shared/InfoIconWithTooltip";
@@ -215,9 +216,8 @@ const RankIndicator = ({ rank, previousRank, mode }) => {
 
     return (
       <Tooltip
-        title={`${Math.abs(change)} position${
-          Math.abs(change) > 1 ? "s" : ""
-        } ${change > 0 ? "up" : "down"}`}
+        title={`${Math.abs(change)} position${Math.abs(change) > 1 ? "s" : ""
+          } ${change > 0 ? "up" : "down"}`}
         arrow
         placement="right"
       >
@@ -297,16 +297,16 @@ const HeaderLabel = ({ label, tooltip, className, isSorted }) => (
         maxWidth: "100%",
         ...(label === "Rank" || label === "Type"
           ? {
-              overflow: "visible",
-              whiteSpace: "normal",
-              textOverflow: "clip",
-              textAlign: "center",
-            }
+            overflow: "visible",
+            whiteSpace: "normal",
+            textOverflow: "clip",
+            textAlign: "center",
+          }
           : {
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }),
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }),
         "@media (hover: hover)": {
           ".MuiTableCell-root:hover &": {
             maxWidth: tooltip ? "calc(100% - 48px)" : "100%",
@@ -334,71 +334,71 @@ const InfoIcon = ({ tooltip }) => (
 );
 
 const createHeaderCell = (label, tooltip) => (header) =>
-  (
+(
+  <Box
+    className="header-content"
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      width: "100%",
+      position: "relative",
+    }}
+  >
+    <HeaderLabel
+      label={label}
+      tooltip={tooltip}
+      className="header-label"
+      isSorted={header?.column?.getIsSorted()}
+    />
+
     <Box
-      className="header-content"
       sx={{
         display: "flex",
         alignItems: "center",
-        width: "100%",
-        position: "relative",
+        gap: 0.5,
+        ml: "auto",
+        flexShrink: 0,
       }}
     >
-      <HeaderLabel
-        label={label}
-        tooltip={tooltip}
-        className="header-label"
-        isSorted={header?.column?.getIsSorted()}
-      />
-
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 0.5,
-          ml: "auto",
-          flexShrink: 0,
-        }}
-      >
-        {tooltip && <InfoIcon tooltip={tooltip} />}
-      </Box>
+      {tooltip && <InfoIcon tooltip={tooltip} />}
     </Box>
-  );
+  </Box>
+);
 
 const createModelHeader =
   (totalModels, officialProvidersCount = 0, isOfficialProviderActive = false) =>
-  ({ table }) => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
+    ({ table }) => {
+      return (
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 1,
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
-          <Typography
+          <Box
             sx={{
-              fontWeight: 600,
-              color: "grey.700",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
             }}
           >
-            Model
-          </Typography>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                color: "grey.700",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Model
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-    );
-  };
+      );
+    };
 
 const BooleanValue = ({ value }) => {
   if (value === null || value === undefined)
@@ -418,8 +418,8 @@ const BooleanValue = ({ value }) => {
             ? alpha(theme.palette.success.main, 0.1)
             : alpha(theme.palette.success.main, 0.1)
           : theme.palette.mode === "dark"
-          ? alpha(theme.palette.error.main, 0.1)
-          : alpha(theme.palette.error.main, 0.1),
+            ? alpha(theme.palette.error.main, 0.1)
+            : alpha(theme.palette.error.main, 0.1),
       })}
     >
       <Typography
@@ -430,8 +430,8 @@ const BooleanValue = ({ value }) => {
               ? theme.palette.success.light
               : theme.palette.success.dark
             : theme.palette.mode === "dark"
-            ? theme.palette.error.light
-            : theme.palette.error.dark,
+              ? theme.palette.error.light
+              : theme.palette.error.dark,
         })}
       >
         {value ? "Yes" : "No"}
@@ -623,7 +623,7 @@ export const createColumns = (
             ? row.original.static_rank
             : row.original.dynamic_rank;
         const isMissing = row.original.isMissing === true;
-        
+
         // Don't display rank for missing models
         if (isMissing) {
           return (
@@ -664,7 +664,7 @@ export const createColumns = (
       sortingFn: typeColumnSort,
       cell: ({ row }) => {
         const isMissing = row.original.isMissing === true;
-        
+
         // Don't display type icon for missing models
         if (isMissing) {
           return (
@@ -687,30 +687,30 @@ export const createColumns = (
             </Box>
           );
         }
-        
+
         return (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <Tooltip title={row.original.model.type}>
-            <Typography
-              sx={{
-                fontSize: "1.2rem",
-                cursor: "help",
-                lineHeight: 1,
-                fontFamily:
-                  '"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif',
-              }}
-            >
-              {getModelTypeIcon(row.original.model.type)}
-            </Typography>
-          </Tooltip>
-        </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <Tooltip title={row.original.model.type}>
+              <Typography
+                sx={{
+                  fontSize: "1.2rem",
+                  cursor: "help",
+                  lineHeight: 1,
+                  fontFamily:
+                    '"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif',
+                }}
+              >
+                {getModelTypeIcon(row.original.model.type)}
+              </Typography>
+            </Tooltip>
+          </Box>
         );
       },
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.type_icon"],
@@ -873,6 +873,7 @@ export const createColumns = (
       accessorKey: "model.openness",
       header: createHeaderCell("Openness", "Model openness classification"),
       cell: ({ row }) => {
+        const openness = getModelOpenness(row.original.model.name);
         return (
           <Box
             sx={{
@@ -882,7 +883,7 @@ export const createColumns = (
             }}
           >
             <Typography variant="body2">
-              Class III-Open Model
+              {openness}
             </Typography>
           </Box>
         );
@@ -933,7 +934,7 @@ export const createColumns = (
               zIndex: 1,
             }}
           >
-            <Typography 
+            <Typography
               variant="body2"
               sx={{
                 color: 'text.secondary',
@@ -1163,7 +1164,7 @@ export const createColumns = (
           padding: "8px 16px",
           backgroundColor: (theme) => alpha(theme.palette.secondary.main, 0.05),
         }),
-    },
+      },
     }
   ];
 
