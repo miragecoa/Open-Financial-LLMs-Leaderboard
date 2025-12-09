@@ -94,6 +94,12 @@ const HARDCODED_SCORES = {
 // Calculate min/max averages
 export const useAverageRange = (data) => {
   return useMemo(() => {
+    if (!data || data.length === 0) {
+      return {
+        minAverage: 0,
+        maxAverage: 100,
+      };
+    }
     const averages = data.map((item) => item.model.average_score);
     return {
       minAverage: Math.min(...averages),
@@ -126,7 +132,7 @@ export const useProcessedData = (data, averageMode, visibleColumns) => {
   return useMemo(() => {
     // 直接使用硬编码数据创建模型列表
     const modelList = [];
-    
+
     // 从HARDCODED_SCORES中获取所有模型名称
     const modelNames = new Set();
     Object.values(HARDCODED_SCORES).forEach(categoryData => {
@@ -135,7 +141,7 @@ export const useProcessedData = (data, averageMode, visibleColumns) => {
         modelNames.add(modelName);
       });
     });
-    
+
     // 为每个模型创建条目
     Array.from(modelNames).forEach((modelName, index) => {
       // 创建硬编码评估数据
@@ -150,11 +156,11 @@ export const useProcessedData = (data, averageMode, visibleColumns) => {
         bilingual_average: getHardcodedScore(modelName, 'bilingual'),
         multilingual_average: getHardcodedScore(modelName, 'multilingual')
       };
-      
+
       // 计算总平均分（包含分数为0的类别）
       const scores = Object.values(hardcodedEvaluations).filter(score => score !== null);
       const averageScore = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
-      
+
       // 创建模型数据
       modelList.push({
         id: `model-${index}`,
@@ -198,19 +204,19 @@ export const useProcessedData = (data, averageMode, visibleColumns) => {
 // 辅助函数：从硬编码数据中获取分数
 function getHardcodedScore(modelName, category) {
   if (!HARDCODED_SCORES[category]) return null;
-  
+
   // 尝试精确匹配
   if (HARDCODED_SCORES[category][modelName] !== undefined) {
     return HARDCODED_SCORES[category][modelName];
   }
-  
+
   // 尝试部分匹配
   for (const key in HARDCODED_SCORES[category]) {
     if (modelName.includes(key) || key.includes(modelName)) {
       return HARDCODED_SCORES[category][key];
     }
   }
-  
+
   return null;
 }
 
@@ -229,10 +235,10 @@ export const useFilteredData = (
   return useMemo(() => {
     // 由于使用的是硬编码数据，这里直接返回所有数据而不进行过滤
     return processedData.map((item, index) => ({
-          ...item,
+      ...item,
       dynamic_rank: index + 1,
       rank: rankingMode === "static" ? item.static_rank : index + 1,
-          isPinned: pinnedModels.includes(item.id),
+      isPinned: pinnedModels.includes(item.id),
     }));
   }, [
     processedData,

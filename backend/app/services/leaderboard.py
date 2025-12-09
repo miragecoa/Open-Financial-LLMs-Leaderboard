@@ -19,10 +19,14 @@ class LeaderboardService:
             logger.info(LogFormatter.section("FETCHING LEADERBOARD DATA"))
             logger.info(LogFormatter.info(f"Loading dataset from {HF_ORGANIZATION}/greek-contents"))
             
-            dataset = datasets.load_dataset(
-                f"{HF_ORGANIZATION}/greek-contents",
-                cache_dir=cache_config.get_cache_path("datasets")
-            )["train"]
+            try:
+                dataset = datasets.load_dataset(
+                    f"{HF_ORGANIZATION}/greek-contents",
+                    cache_dir=cache_config.get_cache_path("datasets")
+                )["train"]
+            except Exception as e:
+                logger.warning(LogFormatter.warning(f"Dataset {HF_ORGANIZATION}/greek-contents not found or inaccessible, returning empty data: {e}"))
+                return []
             
             df = dataset.to_pandas()
             data = df.to_dict('records')

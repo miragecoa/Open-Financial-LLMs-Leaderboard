@@ -36,6 +36,7 @@ export const useDataProcessing = (
   const getColorForValue = useColorGenerator(minAverage, maxAverage);
   const processedData = useProcessedData(data, averageMode, visibleColumns);
   const columnVisibility = useColumnVisibility(visibleColumns);
+  const showGreek = data && data.length > 0;
 
   // Memoize filters
   const filterConfig = useMemo(
@@ -85,7 +86,9 @@ export const useDataProcessing = (
         averageMode,
         searchValue,
         rankingMode,
-        onTogglePin
+        onTogglePin,
+        false,
+        showGreek
       ),
     [
       getColorForValue,
@@ -96,6 +99,7 @@ export const useDataProcessing = (
       searchValue,
       rankingMode,
       onTogglePin,
+      showGreek,
     ]
   );
 

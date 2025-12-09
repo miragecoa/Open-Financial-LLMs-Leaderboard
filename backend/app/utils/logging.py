@@ -25,6 +25,9 @@ class LogFormatter:
             lines.append(f"📊 {title}:")
         
         # Get the maximum length for alignment
+        if not items:
+            return lines
+
         max_key_length = max(len(str(k)) for k in items.keys())
         
         # Format each item
@@ -44,6 +47,9 @@ class LogFormatter:
             lines.append(f"📊 {title}:")
         
         # Get the maximum length for alignment
+        if not stats:
+            return lines
+
         max_key_length = max(len(str(k)) for k in stats.keys())
         
         # Format each stat with an appropriate icon

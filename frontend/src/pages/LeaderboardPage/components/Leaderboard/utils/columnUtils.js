@@ -569,7 +569,8 @@ export const createColumns = (
   searchValue = "",
   rankingMode = "static",
   onTogglePin,
-  hasPinnedRows = false
+  hasPinnedRows = false,
+  showGreek = true
 ) => {
   // Adjust column sizes based on the presence of pinned rows
   const getColumnSize = (defaultSize) =>
@@ -1013,7 +1014,7 @@ export const createColumns = (
   };
 
   const evaluationColumns = [
-    {
+    ...(showGreek ? [{
       accessorKey: "evaluations.greek_average",
       header: createGreekLeaderboardHeader,
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.greek_average"),
@@ -1029,7 +1030,7 @@ export const createColumns = (
           backgroundColor: (theme) => alpha(theme.palette.info.light, 0.05),
         }),
       },
-    },
+    }] : []),
     {
       accessorKey: "evaluations.vision_average",
       header: createLeaderboardHeader("Vision", "Average performance on vision tasks", null),
