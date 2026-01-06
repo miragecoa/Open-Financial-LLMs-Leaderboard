@@ -3,9 +3,7 @@ title: Open FinLLM Leaderboard
 emoji: 🥇
 colorFrom: green
 colorTo: indigo
-sdk: gradio
-sdk_version: 4.42.0
-app_file: app.py
+sdk: docker
 pinned: true
 license: apache-2.0
 ---
