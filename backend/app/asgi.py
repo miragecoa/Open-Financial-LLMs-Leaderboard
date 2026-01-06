@@ -2,6 +2,10 @@
 ASGI entry point for the Open Greek Financial LLM Leaderboard API.
 """
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import uvicorn
 import logging
 import logging.config
