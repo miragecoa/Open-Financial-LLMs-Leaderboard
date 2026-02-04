@@ -88,6 +88,13 @@ const HARDCODED_SCORES = {
     "TheFinAI/FinMA-ES-Bilingual": 0.35, "TheFinAI/plutus-8B-instruct": 7.24, "Qwen-VL-MAX": 0.00,
     "LLaVA-1.6 Vicuna-13B": 0.00, "Deepseek-VL-7B-Chat": 0.00, "Whisper-V3": 0.00, "Qwen2-Audio-7B": 0.00,
     "Qwen2-Audio-7B-Instruct": 0.00, "SALMONN-7B": 0.00, "SALMONN-13B": 0.00
+  },
+  // BloombergGPT Dataset Leaderboard 平均分
+  bloomberggpt: {
+    "GPT-4o": 83.25, "GPT-5": 81.92, "o3-mini": 81.24, "o3": 81.28,
+    "Gemini 2.5 Flash": 80.88, "Grok4": 79.33, "Claude 4 Sonnet": 79.50,
+    "Llama-3.1-8B-Instruct": 77.75, "meta-llama/Llama-3.1-70B-Instruct": 77.75,
+    "DeepSeek Chat": 77.13, "Deepseek-V3": 77.13
   }
 };
 
@@ -127,6 +134,29 @@ export const useColorGenerator = (minAverage, maxAverage) => {
   }, [minAverage, maxAverage]);
 };
 
+// Openness data from BloombergGPT Dataset Leaderboard
+const MODEL_OPENNESS = {
+  // BloombergGPT Dataset models - 按 MOF 标准分类
+  // Closed: 闭源商业模型
+  "GPT-4o": "Closed",
+  "GPT-5": "Closed",
+  "o3-mini": "Closed",
+  "o3": "Closed",
+  "Gemini 2.5 Flash": "Closed",
+  "Grok4": "Closed",
+  "Claude 4 Sonnet": "Closed",
+  // Class III – Open Model: 开放模型架构、参数、技术报告、评估结果等
+  "Llama-3.1-8B-Instruct": "Class III-Open Model",
+  "DeepSeek Chat": "Class III-Open Model",
+  "Deepseek-V3": "Class III-Open Model", // Map Deepseek-V3 to DeepSeek Chat's classification
+  "Llama-3.1-70B-Instruct": "Class III-Open Model",
+  "meta-llama/Llama-3.1-70B-Instruct": "Class III-Open Model",
+};
+
+const getModelOpenness = (modelName) => {
+  return MODEL_OPENNESS[modelName] || "Unclassified";
+};
+
 // Process data with boolean standardization
 export const useProcessedData = (data, averageMode, visibleColumns) => {
   return useMemo(() => {
@@ -154,12 +184,17 @@ export const useProcessedData = (data, averageMode, visibleColumns) => {
         spanish_average: getHardcodedScore(modelName, 'spanish'),
         greek_average: getHardcodedScore(modelName, 'greek'),
         bilingual_average: getHardcodedScore(modelName, 'bilingual'),
-        multilingual_average: getHardcodedScore(modelName, 'multilingual')
+        multilingual_average: getHardcodedScore(modelName, 'multilingual'),
+        bloomberggpt: getHardcodedScore(modelName, 'bloomberggpt')
       };
 
-      // 计算总平均分（包含分数为0的类别）
-      const scores = Object.values(hardcodedEvaluations).filter(score => score !== null);
-      const averageScore = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
+      // 计算总平均分（缺失值视为0，分母为类别总数）
+      const totalScore = Object.values(hardcodedEvaluations).reduce((acc, score) => acc + (score || 0), 0);
+      const categoryCount = Object.keys(hardcodedEvaluations).length; // 应该是 10
+      const averageScore = totalScore / categoryCount;
+
+      // 获取Openness
+      const openness = getModelOpenness(modelName);
 
       // 创建模型数据
       modelList.push({
@@ -168,6 +203,7 @@ export const useProcessedData = (data, averageMode, visibleColumns) => {
           name: modelName,
           average_score: averageScore,
           type: "chat", // 统一设为chat类型
+          openness: openness, // 添加 openness
         },
         evaluations: hardcodedEvaluations,
         features: {

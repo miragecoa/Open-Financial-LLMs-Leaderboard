@@ -145,6 +145,12 @@ const COLUMNS = {
       defaultVisible: true,
       label: "Greek Financial LLM Leaderboard",
     },
+    "evaluations.bloomberggpt": {
+      group: "evaluation",
+      size: COLUMN_SIZES.BENCHMARK,
+      defaultVisible: true,
+      label: "BloombergGPT",
+    },
   },
   MODEL_INFO: {
     "metadata.co2_cost": {

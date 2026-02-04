@@ -20,6 +20,18 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { alpha } from "@mui/material/styles";
 import InfoIconWithTooltip from "../../../../../components/shared/InfoIconWithTooltip";
 
+// Custom sorting function for scores handling nulls
+const scoreSort = (rowA, rowB, columnId) => {
+  const a = rowA.getValue(columnId);
+  const b = rowB.getValue(columnId);
+
+  // Treat null/undefined as -Infinity so they appear last in descending sort
+  const valA = (a === null || a === undefined) ? -Infinity : Number(a);
+  const valB = (b === null || b === undefined) ? -Infinity : Number(b);
+
+  return valA < valB ? -1 : valA > valB ? 1 : 0;
+};
+
 const DatabaseIcon = () => (
   <svg
     className="mr-1.5 text-gray-400 group-hover:text-red-500"
@@ -452,7 +464,7 @@ const createGreekLeaderboardHeader = (header) => (
     }}
   >
     <HeaderLabel
-      label="Greek Financial LLM Leaderboard"
+      label="Greek"
       tooltip="Average performance on Greek financial tasks"
       className="header-label"
       isSorted={header?.column?.getIsSorted()}
@@ -511,7 +523,7 @@ const createLeaderboardHeader = (label, tooltip, linkUrl) => (header) => (
     }}
   >
     <HeaderLabel
-      label={`${label} Leaderboard`}
+      label={label}
       tooltip={tooltip}
       className="header-label"
       isSorted={header?.column?.getIsSorted()}
@@ -837,6 +849,7 @@ export const createColumns = (
     {
       accessorKey: "model.average_score",
       header: createHeaderCell("Average", COLUMN_TOOLTIPS.AVERAGE),
+      sortingFn: scoreSort,
       cell: ({ row, getValue }) =>
         createScoreCell(getValue, row, "model.average_score"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"],
@@ -1014,8 +1027,27 @@ export const createColumns = (
   };
 
   const evaluationColumns = [
+    {
+      accessorKey: "evaluations.bloomberggpt",
+      sortingFn: scoreSort,
+      header: createLeaderboardHeader("BloombergGPT", "BloombergGPT Dataset Leaderboard - Financial sentiment analysis", "https://huggingface.co/spaces/mirageco/BloombergGPT-Dataset-Leaderboard"),
+      cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.bloomberggpt"),
+      size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
+      meta: {
+        headerStyle: {
+          backgroundColor: (theme) => alpha(theme.palette.success.main, 0.08),
+        },
+        cellStyle: (value) => ({
+          position: "relative",
+          overflow: "hidden",
+          padding: "8px 16px",
+          backgroundColor: (theme) => alpha(theme.palette.success.main, 0.08),
+        }),
+      },
+    },
     ...(showGreek ? [{
       accessorKey: "evaluations.greek_average",
+      sortingFn: scoreSort,
       header: createGreekLeaderboardHeader,
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.greek_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1033,6 +1065,7 @@ export const createColumns = (
     }] : []),
     {
       accessorKey: "evaluations.vision_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Vision", "Average performance on vision tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.vision_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1050,6 +1083,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.audio_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Audio", "Average performance on audio tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.audio_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1067,6 +1101,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.english_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("English", "Average performance on English language tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.english_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1084,6 +1119,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.chinese_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Chinese", "Average performance on Chinese language tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.chinese_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1101,6 +1137,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.japanese_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Japanese", "Average performance on Japanese language tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.japanese_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1118,6 +1155,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.spanish_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Spanish", "Average performance on Spanish language tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.spanish_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1135,6 +1173,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.bilingual_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Bilingual", "Average performance on bilingual tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.bilingual_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1152,6 +1191,7 @@ export const createColumns = (
     },
     {
       accessorKey: "evaluations.multilingual_average",
+      sortingFn: scoreSort,
       header: createLeaderboardHeader("Multilingual", "Average performance on multilingual tasks", null),
       cell: ({ row, getValue }) => createScoreCell(getValue, row, "evaluations.multilingual_average"),
       size: TABLE_DEFAULTS.COLUMNS.COLUMN_SIZES["model.average_score"] || 100,
@@ -1166,7 +1206,8 @@ export const createColumns = (
           backgroundColor: (theme) => alpha(theme.palette.secondary.main, 0.05),
         }),
       },
-    }
+    },
+
   ];
 
   const optionalColumns = [

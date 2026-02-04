@@ -297,7 +297,7 @@ const LeaderboardTable = ({
   const paddingBottom =
     virtualRows.length > 0
       ? unpinnedRows.length * currentRowHeight -
-        virtualRows[virtualRows.length - 1].end
+      virtualRows[virtualRows.length - 1].end
       : 0;
 
   // Handle column reset
@@ -402,8 +402,8 @@ const LeaderboardTable = ({
           backgroundColor: isSticky
             ? theme.palette.background.paper
             : (sortedIndex + 1) % 2 === 0
-            ? "transparent"
-            : alpha(theme.palette.mode === "dark" ? "#fff" : "#000", 0.02),
+              ? "transparent"
+              : alpha(theme.palette.mode === "dark" ? "#fff" : "#000", 0.02),
           position: isSticky ? "sticky" : "relative",
           top: isSticky
             ? `${headerHeight + stickyIndex * currentRowHeight}px`
@@ -411,24 +411,24 @@ const LeaderboardTable = ({
           zIndex: isSticky ? 2 : 1,
           boxShadow: isSticky
             ? `0 1px 1px ${alpha(
-                theme.palette.common.black,
-                theme.palette.mode === "dark" ? 0.1 : 0.05
-              )}`
+              theme.palette.common.black,
+              theme.palette.mode === "dark" ? 0.1 : 0.05
+            )}`
             : "none",
           "&::after": isSticky
             ? {
-                content: '""',
-                position: "absolute",
-                left: 0,
-                right: 0,
-                height: "1px",
-                bottom: -1,
-                backgroundColor: alpha(
-                  theme.palette.divider,
-                  theme.palette.mode === "dark" ? 0.1 : 0.2
-                ),
-                zIndex: 1,
-              }
+              content: '""',
+              position: "absolute",
+              left: 0,
+              right: 0,
+              height: "1px",
+              bottom: -1,
+              backgroundColor: alpha(
+                theme.palette.divider,
+                theme.palette.mode === "dark" ? 0.1 : 0.2
+              ),
+              zIndex: 1,
+            }
             : {},
         })}
       >
@@ -596,35 +596,23 @@ const LeaderboardTable = ({
           <Table
             sx={{
               margin: 0,
-              width: "100%",
+              width: "max-content",
+              minWidth: "100%",
               borderCollapse: "separate",
               borderSpacing: 0,
-              tableLayout: pinnedRows.length > 0 ? "fixed" : "fixed",
+              tableLayout: "fixed",
               border: "none",
-              "& td, & th":
-                pinnedRows.length > 0
-                  ? {
-                      width: `${100 / table.getAllColumns().length}%`,
-                    }
-                  : {},
             }}
           >
             <colgroup>
-              {table.getAllColumns().map((column, index) => (
+              {table.getAllColumns().map((column) => (
                 <col
                   key={column.id}
-                  style={
-                    index < 4
-                      ? {
-                          width: column.columnDef.size,
-                          minWidth: column.columnDef.size,
-                          maxWidth: column.columnDef.size,
-                        }
-                      : {
-                          minWidth: column.columnDef.size,
-                          width: `${100 / (table.getAllColumns().length - 4)}%`,
-                        }
-                  }
+                  style={{
+                    width: column.columnDef.size,
+                    minWidth: column.columnDef.size,
+                    maxWidth: column.columnDef.size,
+                  }}
                 />
               ))}
             </colgroup>
