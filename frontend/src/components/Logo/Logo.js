@@ -41,56 +41,56 @@ const Logo = ({ height = "40px" }) => {
         },
       }}
     >
-        <Box
-          component="img"
-          src="/logofinai.png"
-          alt="FinAI Logo"
-          sx={{
-            height: "80%",
-            mx: 2,
-            maxHeight: 80,
-          }}
-        />
-        <Box
-          component="img"
-          src="/securefinailab.png"
-          alt="SecureFinAI Logo"
-          sx={{
-            height: "80%",
-            mx: 2,
-            maxHeight: 80,
-          }}
-        />
-        <Box
-          component="img"
-          src="/nactemlogo.png"
-          alt="NACTEM Logo"
-          sx={{
-            height: "60%",
-            mx: 2,
-            maxHeight: 60,
-          }}
-        />
-        <Box
-          component="img"
-          src="/archimedeslogo.png"
-          alt="Archimedes Logo"
-          sx={{
-            height: "60%",
-            mx: 2,
-            maxHeight: 60,
-          }}
-        />
-        <Box
-          component="img"
-          src="/airclogo.png"
-          alt="AIRC Logo"
-          sx={{
-            height: "80%",
-            mx: 2,
-            maxHeight: 80,
-          }}
-        />
+      <Box
+        component="img"
+        src="/securefinailab.png"
+        alt="SecureFinAI Logo"
+        sx={{
+          height: "80%",
+          mx: 2,
+          maxHeight: 80,
+        }}
+      />
+      <Box
+        component="img"
+        src="/logofinai.png"
+        alt="FinAI Logo"
+        sx={{
+          height: "80%",
+          mx: 2,
+          maxHeight: 80,
+        }}
+      />
+      <Box
+        component="img"
+        src="/nactemlogo.png"
+        alt="NACTEM Logo"
+        sx={{
+          height: "60%",
+          mx: 2,
+          maxHeight: 60,
+        }}
+      />
+      <Box
+        component="img"
+        src="/archimedeslogo.png"
+        alt="Archimedes Logo"
+        sx={{
+          height: "60%",
+          mx: 2,
+          maxHeight: 60,
+        }}
+      />
+      <Box
+        component="img"
+        src="/airclogo.png"
+        alt="AIRC Logo"
+        sx={{
+          height: "80%",
+          mx: 2,
+          maxHeight: 80,
+        }}
+      />
     </Box>
   );
 };
