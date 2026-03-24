@@ -13,6 +13,7 @@ import {
   useFilteredData,
   useColumnVisibility,
 } from "../../../hooks/useDataUtils";
+import { useExternalLeaderboardData } from "../../../hooks/useExternalLeaderboardData";
 
 export const useDataProcessing = (
   data,
@@ -31,10 +32,18 @@ export const useDataProcessing = (
   setSorting,
   isOfficialProviderActive
 ) => {
+  // Fetch external leaderboard scores
+  const { scoreMap: ieScores } = useExternalLeaderboardData(
+    "https://mirageco-information-extraction-leaderboard.hf.space/api/leaderboard/formatted",
+    "ieLeaderboardData"
+  );
+
+  const externalScores = useMemo(() => ({ ie: ieScores }), [ieScores]);
+
   // Call hooks directly at root level
   const { minAverage, maxAverage } = useAverageRange(data);
   const getColorForValue = useColorGenerator(minAverage, maxAverage);
-  const processedData = useProcessedData(data, averageMode, visibleColumns);
+  const processedData = useProcessedData(data, averageMode, visibleColumns, externalScores);
   const columnVisibility = useColumnVisibility(visibleColumns);
   const showGreek = data && data.length > 0;
 
